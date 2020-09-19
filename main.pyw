@@ -5,14 +5,14 @@ class TrayInfo:
     def __init__(self):
         super().__init__()
         self.year, self.week, self.day = datetime.date.today().isocalendar()
-        self.menu_options = (("Current Week", None, self.showCurrentWeek),)
-        self.systray = SysTrayIcon("icon.ico", f"CW {self.week}", self.menu_options)
+        self.cwText = f"CW {self.week}"
+        self.menu_options = ((self.cwText, None, self.showCurrentWeek),)
+        self.systray = SysTrayIcon("icon.ico", self.cwText, self.menu_options)
 
     def showCurrentWeek(self, systray):
-        print(f"CW {self.week}")
+        print(self.cwText)
 
     def show(self):
         self.systray.start()
 
-tray = TrayInfo()
-tray.show()
+TrayInfo().show()
