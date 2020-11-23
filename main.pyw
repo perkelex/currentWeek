@@ -1,4 +1,5 @@
 from infi.systray import SysTrayIcon
+from time import sleep
 import datetime
 
 class TrayInfo:
@@ -14,5 +15,12 @@ class TrayInfo:
 
     def show(self):
         self.systray.start()
+        self.updateWeek(3600)
 
+    def updateWeek(self, delay):
+        while True:
+            self.year, self.week, self.day = datetime.date.today().isocalendar()
+            self.systray.update(hover_text=f"CW {self.week}")
+            sleep(delay)
+        
 TrayInfo().show()
