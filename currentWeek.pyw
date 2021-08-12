@@ -3,18 +3,20 @@ from PIL import Image, ImageDraw, ImageFont
 from time import sleep
 import datetime
 
+PIC_NAME = "icon.ico"
+
 class PicGenerator:
     def __init__(self):
         pass
 
     def generatePic(self, text):
-        img = Image.new('RGB', (256, 256), color = (1, 1, 1))
+        img = Image.new("RGB", (256, 256), color = (1, 1, 1))
 
         d = ImageDraw.Draw(img)
-        fnt = ImageFont.truetype('arial.ttf', 230)
+        fnt = ImageFont.truetype("arial.ttf", 230)
         d.text((0,0), str(text), font=fnt, fill=(255,255,255))
 
-        img.save('icon.ico')
+        img.save(PIC_NAME)
 
 class TrayInfo:
     def __init__(self):
@@ -33,7 +35,7 @@ class TrayInfo:
         pass
 
     def setSysTray(self):
-        self.systray = SysTrayIcon("icon.ico", self.cwText, self.menu_options)
+        self.systray = SysTrayIcon(PIC_NAME, self.cwText, self.menu_options)
 
     def setMenuOptions(self):
         self.menu_options = (
