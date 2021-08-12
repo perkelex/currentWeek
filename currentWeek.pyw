@@ -17,31 +17,46 @@ class PicGenerator:
         img.save('icon.ico')
 
 class TrayInfo:
-    def __init__(self, year, week, day):
+    def __init__(self):
         super().__init__()
-        self.year = year
-        self.week = week
-        self.day = day
-        self.cwText = f"CW {self.week}"
-        self.menu_options = ((self.cwText, None, self.showCurrentWeek),)
-        self.systray = SysTrayIcon("icon.ico", self.cwText, self.menu_options)
-
-    def showCurrentWeek(self, systray):
-        print(self.cwText)
+        self.setStartupTime()
+        self.setYWD()
+        self.setCurrentWeekText()
+        self.setMenuOptions()
+        self.setSysTray()
 
     def show(self):
         self.systray.start()
-        self.setDate()
 
-    def setDate(self):
+    def dummyTrigger(self, systray):
+        ''' Stand-in for on-click event trigger '''
+        pass
+
+    def setSysTray(self):
+        self.systray = SysTrayIcon("icon.ico", self.cwText, self.menu_options)
+
+    def setMenuOptions(self):
+        self.menu_options = (
+            (self.startupTime, None, self.dummyTrigger),
+            (self.cwText, None, self.dummyTrigger),
+        )
+
+    def setCurrentWeekText(self):
+        self.cwText = f"CW {self.week}"
+
+    def setStartupTime(self):
+        self.startupTime = datetime.datetime.now().strftime("%Y.%m.%d %H:%M:%S")
+
+    def setYWD(self):
         self.year, self.week, self.day = datetime.date.today().isocalendar()
 
+    def getWeek(self):
+        return self.week
 
 if __name__ == "__main__":
-    year, week, day = datetime.date.today().isocalendar()
+    tray = TrayInfo()
 
     pg = PicGenerator()
-    pg.generatePic(week)
+    pg.generatePic(tray.getWeek())
 
-    tray = TrayInfo(year, week, day)
     tray.show()
