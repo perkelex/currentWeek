@@ -1,6 +1,6 @@
-from infi.systray import SysTrayIcon
+from PySide6 import QtCore, QtWidgets, QtGui
 from PIL import Image, ImageDraw, ImageFont
-from time import sleep
+import sys
 import datetime
 
 PIC_NAME = "icon.ico"
@@ -18,47 +18,40 @@ class PicGenerator:
 
         img.save(PIC_NAME)
 
-class TrayInfo:
-    def __init__(self):
+class TrayInfo():
+    def __init__(self, cw) -> None:
         super().__init__()
-        self.setStartupTime()
-        self.setYWD()
-        self.setCurrentWeekText()
-        self.setMenuOptions()
-        self.setSysTray()
+        self.app = QtWidgets.QApplication()
+        self.cw = cw
 
-    def show(self):
-        self.systray.start()
+        icon = QtGui.QIcon(PIC_NAME)
+        menu = QtWidgets.QMenu()
 
-    def dummyTrigger(self, systray):
-        ''' Stand-in for on-click event trigger '''
-        pass
+        menu.addAction(self.getStartupTime())
+        menu.addAction(f"CW {self.cw}")
 
-    def setSysTray(self):
-        self.systray = SysTrayIcon(PIC_NAME, self.cwText, self.menu_options)
+        exitAction = menu.addAction("Exit")
+        exitAction.triggered.connect(sys.exit)
 
-    def setMenuOptions(self):
-        self.menu_options = (
-            (self.startupTime, None, self.dummyTrigger),
-            (self.cwText, None, self.dummyTrigger),
-        )
+        self.tray = QtWidgets.QSystemTrayIcon()
+        self.tray.setIcon(icon)
+        self.tray.setContextMenu(menu)
+        self.tray.setToolTip(f"CW {self.cw}")
+        self.tray.show()
 
-    def setCurrentWeekText(self):
-        self.cwText = f"CW {self.week}"
+    def run(self):
+        self.app.exec()
 
-    def setStartupTime(self):
-        self.startupTime = datetime.datetime.now().strftime("%Y.%m.%d %H:%M:%S")
+    def generatePic(self):
+        PicGenerator().generatePic(self.cw)
 
-    def setYWD(self):
-        self.year, self.week, self.day = datetime.date.today().isocalendar()
+    def getStartupTime(self):
+        return datetime.datetime.now().strftime("%Y.%m.%d %H:%M:%S")
 
-    def getWeek(self):
-        return self.week
+    def getCurrentWeek(self):
+        return datetime.date.today().isocalendar()[1]
 
 if __name__ == "__main__":
-    tray = TrayInfo()
-
-    pg = PicGenerator()
-    pg.generatePic(tray.getWeek())
-
-    tray.show()
+    cw = datetime.date.today().isocalendar()[1]
+    PicGenerator().generatePic(cw)
+    TrayInfo(cw).run()
