@@ -42,14 +42,8 @@ class TrayInfo():
     def run(self):
         self.app.exec()
 
-    def generatePic(self):
-        PicGenerator().generatePic(self.cw)
-
     def getStartupTime(self):
         return datetime.datetime.now().strftime("%Y.%m.%d %H:%M:%S")
-
-    def getCurrentWeek(self):
-        return datetime.date.today().isocalendar()[1]
 
 if __name__ == "__main__":
     cw = datetime.date.today().isocalendar()[1]
