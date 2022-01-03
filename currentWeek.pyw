@@ -14,7 +14,11 @@ class PicGenerator:
 
         d = ImageDraw.Draw(img)
         fnt = ImageFont.truetype("arial.ttf", 230)
-        d.text((0,0), str(text), font=fnt, fill=(255,255,255))
+        if int(text) < 10:
+            d.text((60,0), str(text), font=fnt, fill=(255,255,255))
+        else:
+            d.text((0,0), str(text), font=fnt, fill=(255,255,255))
+
 
         img.save(PIC_NAME)
 
