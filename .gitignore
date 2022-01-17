@@ -1,4 +1,6 @@
 __pycache__
 .vscode
 .venv
-icon.ico
+build/*
+dist/*
+*.spec

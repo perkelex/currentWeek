@@ -1,9 +1,10 @@
 from PySide6 import QtCore, QtWidgets, QtGui
 from PIL import Image, ImageDraw, ImageFont
+from getpass import getuser
 import sys
 import datetime
 
-PIC_NAME = "icon.ico"
+PIC_NAME = "C:\\Users\\" + getuser() + "\\AppData\\Local\\Temp\\currentWeek_icon.ico"
 
 class PicGenerator:
     def __init__(self):
