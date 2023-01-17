@@ -11,14 +11,15 @@ class PicGenerator:
         pass
 
     def generatePic(self, text):
-        img = Image.new("RGB", (256, 256), color = (1, 1, 1))
+        img = Image.new("RGB", (256, 256), color = (0, 0, 0))
 
         d = ImageDraw.Draw(img)
         fnt = ImageFont.truetype("arial.ttf", 230)
+        green = (0, 255, 0)
         if int(text) < 10:
-            d.text((60,0), str(text), font=fnt, fill=(255,255,255))
+            d.text((60,0), str(text), font=fnt, fill=green)
         else:
-            d.text((0,0), str(text), font=fnt, fill=(255,255,255))
+            d.text((0,0), str(text), font=fnt, fill=green)
 
 
         img.save(PIC_NAME)

@@ -6,6 +6,9 @@ fi
 echo "Activating virtual environment"
 source .venv/Scripts/activate
 
+echo "Installing wheel and setuptools"
+python -m pip install -U pip wheel setuptools
+
 echo "Updating .venv pip"
 python -m pip install -U pip
 
