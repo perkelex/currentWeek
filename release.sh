@@ -1,1 +1,1 @@
-pyinstaller -F --paths=".venv/Lib/site-packages" currentWeek.pyw
+pyinstaller -D --paths=".venv/Lib/site-packages" currentWeek.pyw

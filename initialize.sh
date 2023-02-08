@@ -9,9 +9,6 @@ source .venv/Scripts/activate
 echo "Installing wheel and setuptools"
 python -m pip install -U pip wheel setuptools
 
-echo "Updating .venv pip"
-python -m pip install -U pip
-
 echo "Installing project requirements in .venv"
 pip install -r requirements.txt
 
